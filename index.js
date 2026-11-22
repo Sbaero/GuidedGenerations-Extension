@@ -8,6 +8,7 @@ import { guidedResponse } from './scripts/guidedResponse.js';
 import { guidedSwipe } from './scripts/guidedSwipe.js';
 import { guidedContinue, undoLastGuidedAddition, revertToOriginalGuidedContinue, initGuidedContinueListeners } from './scripts/guidedContinue.js'; // Added initGuidedContinueListeners, undoLastGuidedAddition, revertToOriginalGuidedContinue
 import { guidedImpersonate } from './scripts/guidedImpersonate.js';
+import { guidedImpersonatePrefill } from './scripts/guidedImpersonatePrefill.js';
 import { guidedImpersonate2nd } from './scripts/guidedImpersonate2nd.js'; // Import 2nd
 import { guidedImpersonate3rd } from './scripts/guidedImpersonate3rd.js'; // Import 3rd
 // Import the new Update Character function
@@ -183,6 +184,11 @@ export const defaultSettings = {
     autoTriggerSeparatedThinking: false, // Default off
     enableAutoCustomAutoGuide: false, // Default off for auto-triggering the new guide
     showImpersonate1stPerson: true, // Default on
+    showPrefillImpersonate: false, // Default off: Prefill Impersonate button
+    autoSendPrefillImpersonate: true, // Prefill Impersonate: send result as {{user}} and trigger {{char}} reply
+    wipeRegenPrefillImpersonate: true, // Prefill Impersonate: clicking again wipes the input and regenerates (off = restore previous input)
+    prefillImpersonateText: '', // Prefill Impersonate: text {{user}}'s reply is forced to start with (not included in the result)
+    promptPrefillImpersonate: '{{input}}', // Prefill Impersonate: instruction sent with the impersonation
     showImpersonate2ndPerson: false, // Default off
     showImpersonate3rdPerson: false, // Default off
     showGuidedContinue: false, // Default off for Guided Continue
@@ -528,6 +534,14 @@ async function updateSettingsUI() {
                 textarea.value = await getPromptValue(key, defaultSettings[key] ?? '', {
                     settings: extension_settings[extensionName],
                 });
+            }
+        }
+
+        // Populate Prefill Impersonate textareas (plain settings, not prompts.json prompts)
+        for (const key of ['prefillImpersonateText', 'promptPrefillImpersonate']) {
+            const el = document.getElementById(`gg_${key}`);
+            if (el) {
+                el.value = extension_settings[extensionName][key] ?? defaultSettings[key] ?? '';
             }
         }
 
@@ -1398,6 +1412,11 @@ function updateExtensionButtons() {
     if (settings.showImpersonate3rdPerson) {
         const btn3 = createActionButton('gg_impersonate_button_3rd', 'Guided Impersonate (3rd Person)', 'fa-solid fa-users', guidedImpersonate3rd);
         regularButtons.push(btn3);
+    }
+
+    if (settings.showPrefillImpersonate) {
+        const btnPrefill = createActionButton('gg_impersonate_button_prefill', 'Prefill Impersonate', 'fa-solid fa-user-pen', guidedImpersonatePrefill);
+        regularButtons.push(btnPrefill);
     }
 
     // Add Guided Swipe Button

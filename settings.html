@@ -29,6 +29,24 @@
                 </div>
                 <div class="setting_item">
                     <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                        <input type="checkbox" id="gg_showPrefillImpersonate" name="showPrefillImpersonate" class="gg-setting-input">
+                        <label for="gg_showPrefillImpersonate" style="margin-left: 8px;">Show Prefill Impersonate</label>
+                    </div>
+                </div>
+                <div class="setting_item">
+                    <div style="display: flex; align-items: center; margin-bottom: 5px; margin-left: 24px;">
+                        <input type="checkbox" id="gg_autoSendPrefillImpersonate" name="autoSendPrefillImpersonate" class="gg-setting-input">
+                        <label for="gg_autoSendPrefillImpersonate" style="margin-left: 8px;" title="Send the impersonation as your message and let {{char}} respond.">Auto-send &amp; trigger {{char}}&#39;s reply</label>
+                    </div>
+                </div>
+                <div class="setting_item">
+                    <div style="display: flex; align-items: center; margin-bottom: 5px; margin-left: 24px;">
+                        <input type="checkbox" id="gg_wipeRegenPrefillImpersonate" name="wipeRegenPrefillImpersonate" class="gg-setting-input">
+                        <label for="gg_wipeRegenPrefillImpersonate" style="margin-left: 8px;" title="When the input still holds the last impersonation, clicking again wipes it and regenerates with no input. Off: clicking again restores what you typed before.">Click again: wipe &amp; regenerate</label>
+                    </div>
+                </div>
+                <div class="setting_item">
+                    <div style="display: flex; align-items: center; margin-bottom: 5px;">
                         <input type="checkbox" id="gg_showGuidedContinue" name="showGuidedContinue" class="gg-setting-input">
                         <label for="gg_showGuidedContinue" style="margin-left: 8px;">Show Guided Continue</label>
                     </div>
@@ -593,6 +611,14 @@
                         <label for="gg_promptImpersonate3rd" style="margin-left: 8px; min-width:150px; display:block;">Impersonate 3rd Person Prompt</label>
                         <textarea id="gg_promptImpersonate3rd" name="promptImpersonate3rd" class="gg-setting-input text_pole" rows="3" style="width:100%; margin-left:8px; min-width:200px;"></textarea>
                         <button type="button" class="gg-default-button" data-target="promptImpersonate3rd" style="margin-top:4px;">Default</button>
+                    </div>
+                    <div class="setting_item">
+                        <label for="gg_prefillImpersonateText" style="margin-left: 8px; min-width:150px; display:block;" title="Inserted at the very start of {{user}}&#39;s reply, so the model continues from it. Not an instruction, and not included in the result. Macros like {{char}} work.">Prefill Impersonate: Reply Prefill (the reply is forced to start with this, put &lt;think&gt; text here)</label>
+                        <textarea id="gg_prefillImpersonateText" name="prefillImpersonateText" class="gg-setting-input text_pole" rows="2" style="width:100%; margin-left:8px; min-width:200px;" placeholder="e.g. &lt;think&gt;*Sure thing!*&lt;/think&gt;"></textarea>
+                    </div>
+                    <div class="setting_item">
+                        <label for="gg_promptPrefillImpersonate" style="margin-left: 8px; min-width:150px; display:block;" title="Instruction sent with the impersonation. {{input}} is your current input. Leave empty for no instruction.">Prefill Impersonate: Instruction (optional, sent as a separate note, NOT part of the reply)</label>
+                        <textarea id="gg_promptPrefillImpersonate" name="promptPrefillImpersonate" class="gg-setting-input text_pole" rows="2" style="width:100%; margin-left:8px; min-width:200px;"></textarea>
                     </div>
                     <div class="setting_item">
                         <label for="gg_promptGuidedContinue" style="margin-left: 8px; min-width:150px; display:block;">Guided Continue Prompt</label>

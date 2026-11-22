@@ -769,6 +769,7 @@ export async function requestCompletion({
     debugLabel = '',
     includeChatHistory = true,
     includeIdentityContext = true,
+    prefill = '',
 } = {}) {
     const context = getContext();
     if (!context) {
@@ -844,6 +845,17 @@ export async function requestCompletion({
         );
     }
 
+    // Optional prefill: the response is forced to start with this text.
+    // Chat: trailing assistant message. Text: appended to the end of the prompt.
+    const prefillText = typeof prefill === 'string' ? prefill : '';
+    if (prefillText) {
+        if (mode === 'chat' && Array.isArray(requestData.messages)) {
+            requestData.messages = [...requestData.messages, { role: 'assistant', content: prefillText }];
+        } else if (mode === 'text') {
+            requestData.prompt = `${requestData.prompt || ''}${prefillText}`;
+        }
+    }
+
     const options = {
         presetName: resolvedPresetName || undefined,
         instructName: profile?.instruct || undefined,
@@ -897,7 +909,7 @@ export async function requestCompletion({
             overridePayload.stream = false;
             debugLog(`[${extensionName}] requestCompletion: using ConnectionManagerRequestService for profile "${resolvedProfileName}" includePreset=false`);
             emitGenerationEvent(context, 'GENERATION_STARTED', { source: extensionName });
-            const promptPayload = mode === 'chat' ? requestData.messages : typeof prompt === 'string' ? prompt : '';
+            const promptPayload = mode === 'chat' ? requestData.messages : (requestData.prompt ?? '');
             const result = await connectionManagerService.sendRequest(
                 profile.id,
                 promptPayload,

@@ -111,6 +111,11 @@ const defaultSettings = {
     autoTriggerThinking: false,
     enableAutoCustomAutoGuide: false,
     showImpersonate1stPerson: true,
+    showPrefillImpersonate: false,
+    autoSendPrefillImpersonate: true,
+    wipeRegenPrefillImpersonate: true,
+    prefillImpersonateText: '',
+    promptPrefillImpersonate: '{{input}}',
     showImpersonate2ndPerson: false,
     showImpersonate3rdPerson: false,
     showGuidedContinue: false,
@@ -164,6 +169,7 @@ import { guidedSwipe, generateNewSwipe } from '../guidedSwipe.js';
 import { guidedContinue, initGuidedContinueListeners, undoLastGuidedAddition, revertToOriginalGuidedContinue } from '../guidedContinue.js';
 import { guidedResponse } from '../guidedResponse.js';
 import { guidedImpersonate } from '../guidedImpersonate.js';
+import { guidedImpersonatePrefill } from '../guidedImpersonatePrefill.js';
 import { guidedImpersonate2nd } from '../guidedImpersonate2nd.js';
 import { guidedImpersonate3rd } from '../guidedImpersonate3rd.js';
 import { simpleSend } from '../simpleSend.js';
@@ -243,6 +249,7 @@ export {
     revertToOriginalGuidedContinue,
     guidedResponse,
     guidedImpersonate,
+    guidedImpersonatePrefill,
     guidedImpersonate2nd,
     guidedImpersonate3rd,
     simpleSend,
